@@ -7,8 +7,8 @@ ARG PUBLIC_HELLO
 COPY . /usr/src/app
 RUN apk --no-cache add curl tzdata
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN npm install -g npm@10.5.0
 RUN npm install --legacy-peer-deps
-# RUN nvm install 18.17.0
 RUN npm run build
 
 FROM node:19.7-alpine
