@@ -1,4 +1,4 @@
-FROM node:18-alpine AS sk-build
+FROM node:19.7-alpine AS sk-build
 WORKDIR /usr/src/app
 
 ARG TZ=Europe/Stockholm
@@ -10,7 +10,7 @@ RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN npm install
 RUN npm run build
 
-FROM node:18-alpine
+FROM node:19.7-alpine
 WORKDIR /usr/src/app
 
 ARG TZ=Europe/Stockholm
@@ -21,6 +21,7 @@ COPY --from=sk-build /usr/src/app/package.json /usr/src/app/package.json
 COPY --from=sk-build /usr/src/app/package-lock.json /usr/src/app/package-lock.json
 
 COPY --from=sk-build /usr/src/app/build /usr/src/app/build
+
 
 EXPOSE 3000
 CMD ["node", "build/index.js"]
